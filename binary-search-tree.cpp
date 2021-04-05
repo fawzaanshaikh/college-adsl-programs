@@ -50,6 +50,8 @@ void BSTree :: inorderTraversal(Node *t) {
     inorderTraversal(t -> rc);
 }
 
+// Write code for insertNode() function
+
 int main() {
 
 
