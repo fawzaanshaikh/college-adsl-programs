@@ -8,3 +8,5 @@ Currently, there is/are :-
 - binary-tree.cpp : Implementing a binary tree and displaying with inorder traversal method using C++.
 
 - binary-search-tree.cpp :- Creating a binary search tree.
+
+- assignment-3 :-
