@@ -23,6 +23,10 @@ class BinarySearchTree {
     // void postorderTraversal();
     void display();
     Node *insertRec(Node *, int);
+    void mirror(Node *);
+    int height(Node *);
+    void print(Node *, int);
+    void level(Node *);
 };
 
 void BinarySearchTree :: create(int data) {
@@ -71,6 +75,61 @@ void BinarySearchTree :: display() {
     Node *temp;
     temp = root;
     inorderTraversal(temp);
+}
+
+void BinarySearchTree :: mirror(Node *node) {
+    if (node == NULL) {
+        return;
+    }
+    else {
+        Node *temp;
+        mirror(node -> left);
+        mirror(node -> right);
+        temp = node -> left;
+        node -> left = node -> right;
+        node -> right = temp;
+    }
+}
+
+int BinarySearchTree :: height(Node *root) {
+    int left_height, right_height;
+    
+    if (root == NULL) {
+        return -1;
+    }
+    else {
+        left_height = height(root -> left);
+        right_height = height(root -> right);
+
+        if (left_height > right_height) {
+            return (left_height + 1);
+        }
+        else {
+            return (right_height + 1);
+        }
+    }
+}
+
+void BinarySearchTree :: print(Node *root, int level) {
+    if (root == NULL) {
+        return;
+    }
+    else if (level == 1) {
+        cout << root -> data << " ";
+    }
+    else if (level > 1) {
+        print(root -> left, level - 1);
+        print(root -> right, level - 1);
+    }
+}
+
+void BinarySearchTree :: level(Node *root) {
+    int h = height(root);
+    int i;
+    for (i = 1; i <= h; i++) {
+        print(root, i);
+        cout << root << i << endl;
+    }
 }
 
 int main() {
