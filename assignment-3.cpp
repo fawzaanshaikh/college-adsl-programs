@@ -43,25 +43,18 @@ void BinarySearchTree :: create(int data) {
     }
 }
 
-void BinarySearchTree :: insertNode(Node *r, Node *temp) {
-    while (1) {
-        if (temp -> data < r-> data) {
-            if (r -> left == NULL) {
-                r -> left = temp;
-                break;
-            }
-            else {
-                r = r -> left;
-            }
-        }
+void BinarySearchTree :: insertNode(Node *old_node, Node *new_node) {
+    if (old_node = NULL) {
+        old_node = new_node;
+    }
+
+    if (new_node -> data <= old_node -> data) {
+        insertNode(old_node -> left, new_node);
+    }
+    else {
+        insertNode(old_node -> right, new_node);
     }
 }
-
-// Node *BinarySearchTree :: insertRec(Node *root, int data) {
-//     if (root == NULL) {
-//         root = create(data);
-//     }
-// }
 
 void BinarySearchTree :: inorderTraversal(Node *t) {
     if (t != NULL) {
@@ -133,5 +126,11 @@ void BinarySearchTree :: level(Node *root) {
 }
 
 int main() {
-
+    BinarySearchTree bstObj;
+    bstObj.create(1);
+    bstObj.create(2);
+    bstObj.create(3);
+    bstObj.create(4);
+    bstObj.create(5);
+    bstObj.display();
 }
