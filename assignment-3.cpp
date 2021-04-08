@@ -44,7 +44,7 @@ void BinarySearchTree :: create(int data) {
 }
 
 void BinarySearchTree :: insertNode(Node *old_node, Node *new_node) {
-    if (old_node = NULL) {
+    if (old_node == NULL) {
         old_node = new_node;
     }
 
