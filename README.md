@@ -9,4 +9,4 @@ Currently, there is/are :-
 
 - binary-search-tree.cpp :- Creating a binary search tree.
 
-- assignment-3 :-
+- assignment-3 :- Creating a BST and finding its height, levels, leaf nodes and its mirror.
