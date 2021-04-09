@@ -80,7 +80,20 @@ void Dictionary :: displayDictionary(Node *temp) {
 }
 
 void Dictionary :: searchInDictionary(char search_key[]) {
+    Node *temp = root;
     
+    while (temp != NULL) {
+        if (strcmp(search_key, temp -> key) == 0) {
+            cout << "Keyword found! The meaning is: " << temp -> meaning;
+            return;
+        }
+        else if (strcmp(search_key, temp -> key) <= 0)
+            temp = temp -> left;
+        else
+            temp = temp -> right;
+    }
+
+    cout << "Keyword " << search_key << " not found.\n";
 }
 
 int main() {
