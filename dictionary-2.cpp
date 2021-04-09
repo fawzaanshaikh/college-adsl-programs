@@ -19,6 +19,7 @@ class Dictionary {
         void createDictionary();
         void insertNode(Node *);
         void displayDictionary(Node *);
+        void searchInDictionary(char *);
 };
 
 Node *Dictionary :: getData() {
@@ -78,14 +79,18 @@ void Dictionary :: displayDictionary(Node *temp) {
     }
 }
 
+void Dictionary :: searchInDictionary(char search_key[]) {
+    
+}
+
 int main() {
     Dictionary dictObj;
 
     int choice;
-    char permission;
+    char permission, search_key[20];
 
     do {
-        cout << "Enter 1 to create the dictionary and 2 to display the dictionary\n";
+        cout << "Enter: 1 to create, 2 to display and 3 to search. \n";
         cin >> choice;
 
         switch (choice)
@@ -95,6 +100,11 @@ int main() {
             break;
         case 2:
             dictObj.displayDictionary(root);
+            break;
+        case 3:
+            cout << "Enter the keyword you would like to search - ";
+            cin >> search_key;
+            dictObj.searchInDictionary(search_key);
             break;
 
         default:
