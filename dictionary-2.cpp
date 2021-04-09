@@ -18,7 +18,7 @@ class Dictionary {
         Node *getData();
         void createDictionary();
         void insertNode(Node *);
-        void displayDictionary();
+        void displayDictionary(Node *);
 };
 
 Node *Dictionary :: getData() {
@@ -26,7 +26,7 @@ Node *Dictionary :: getData() {
     cout << "Enter a key value - ";
     cin >> new_node -> key;
 
-    cout << "Enter its meaning";
+    cout << "Enter its meaning - ";
     cin >> new_node -> meaning;
 
     new_node -> right = NULL;
@@ -69,8 +69,13 @@ void Dictionary :: insertNode(Node *new_node) {
     }
 }
 
-void Dictionary :: displayDictionary() {
-
+void Dictionary :: displayDictionary(Node *temp) {
+    if (temp != NULL) {
+        displayDictionary(temp -> left);
+        cout << "\n Keyword : " << temp -> key;
+        cout << "\t Meaning : " << temp -> meaning;
+        displayDictionary(temp -> right);
+    }
 }
 
 int main() {
@@ -89,13 +94,16 @@ int main() {
             dictObj.createDictionary();
             break;
         case 2:
-            dictObj.displayDictionary();
+            dictObj.displayDictionary(root);
             break;
 
         default:
             cout << "Please enter a valid number";
             break;
         }
+
+        cout << "Do you want to continue? (y/n): ";
+        cin >> permission;
     } while (permission == 'y');
 
     return 0;
