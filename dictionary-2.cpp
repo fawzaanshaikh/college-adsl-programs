@@ -20,6 +20,7 @@ class Dictionary {
         void insertNode(Node *);
         void displayDictionary(Node *);
         void searchInDictionary(char *);
+        void updateInDictionary(char *);
 };
 
 Node *Dictionary :: getData() {
@@ -96,6 +97,25 @@ void Dictionary :: searchInDictionary(char search_key[]) {
     cout << "Keyword " << search_key << " not found.\n";
 }
 
+void Dictionary :: updateInDictionary(char search_key[]){
+    Node *temp = root;
+    
+    while (temp != NULL) {
+        if (strcmp(search_key, temp -> key) == 0) {
+            cout << "Keyword found! The meaning is: " << temp -> meaning;
+            cout << "\nEnter the new meaning: ";
+            cin >> temp -> meaning;
+            return;
+        }
+        else if (strcmp(search_key, temp -> key) <= 0)
+            temp = temp -> left;
+        else
+            temp = temp -> right;
+    }
+
+    cout << "Keyword " << search_key << " not found.\n";
+}
+
 int main() {
     Dictionary dictObj;
 
@@ -103,7 +123,7 @@ int main() {
     char permission, search_key[20];
 
     do {
-        cout << "Enter: 1 to create, 2 to display and 3 to search. \n";
+        cout << "Enter: 1 to create, 2 to display, 3 to search and 4 to update. \n";
         cin >> choice;
 
         switch (choice)
@@ -119,6 +139,11 @@ int main() {
             cin >> search_key;
             dictObj.searchInDictionary(search_key);
             break;
+        case 4:
+            cout << "Enter the keyword you would like to update - ";
+            cin >> search_key;
+            dictObj.updateInDictionary(search_key);
+            break; 
 
         default:
             cout << "Please enter a valid number";
