@@ -78,6 +78,8 @@ void Dictionary :: displayDictionary(Node *temp) {
         cout << "\t Meaning : " << temp -> meaning;
         displayDictionary(temp -> right);
     }
+
+    cout << "\n";
 }
 
 void Dictionary :: searchInDictionary(char search_key[]) {
