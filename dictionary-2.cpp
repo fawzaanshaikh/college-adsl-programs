@@ -21,6 +21,7 @@ class Dictionary {
         void displayDictionary(Node *);
         void searchInDictionary(char *);
         void updateInDictionary(char *);
+        void deleteFromDictionary(Node *, char *);
 };
 
 Node *Dictionary :: getData() {
@@ -118,6 +119,15 @@ void Dictionary :: updateInDictionary(char search_key[]){
     cout << "Keyword " << search_key << " not found.\n";
 }
 
+void Dictionary :: deleteFromDictionary(Node *temp, char delete_key[]) {
+    if (temp == NULL) {
+        cout << "Tree is empty\n";
+    }
+    else if (strcmp(delete_key, temp -> key) < 0) {
+    }
+
+}
+
 int main() {
     Dictionary dictObj;
 
@@ -146,6 +156,10 @@ int main() {
             cin >> search_key;
             dictObj.updateInDictionary(search_key);
             break; 
+        case 5:
+            cout << "Enter the keyword you would like to delete - ";
+            cin >> search_key;
+            
 
         default:
             cout << "Please enter a valid number";
