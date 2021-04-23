@@ -16,3 +16,5 @@ Currently, there is/are :-
 - threaded-binary-tree.cpp :- Creating and displaying a threaded binary tree. A threaded binary tree is a binary (search) tree which has none of its nodes pointing to a NULL value. They are either pointing to their inorder predecessors/successors or to the dummy/head node.
 
 - expression-tree.cpp :- Program to construct an expression treefor a given prefix expressionand perform recursive and non-recursive traversals.
+
+- graph.cpp :- Accept a graph from user using adjacency matrix or adjacency list and perform breadth first seach and depth first search traversals for the same.
