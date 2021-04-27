@@ -18,3 +18,5 @@ Currently, there is/are :-
 - expression-tree.cpp :- Program to construct an expression treefor a given prefix expressionand perform recursive and non-recursive traversals.
 
 - graph.cpp :- Accept a graph from user using adjacency matrix or adjacency list and perform breadth first seach and depth first search traversals for the same.
+
+- prims-algorithm.cpp :- Program which implements Prim's Algorithm to find the Minimum Spanning Tree of a Graph.
