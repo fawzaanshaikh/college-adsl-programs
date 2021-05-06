@@ -19,4 +19,6 @@ Currently, there is/are :-
 
 - graph.cpp :- Accept a graph from user using adjacency matrix or adjacency list and perform breadth first seach and depth first search traversals for the same.
 
-- prims-algorithm.cpp :- Program which implements Prim's Algorithm to find the Minimum Spanning Tree of a Graph.
+- prims-algorithm.cpp :- Program which implements Prim's Algorithm to find the Minimum Spanning Tree of a graph.
+
+- dijkstras-algorithm.cpp :- Program which implements Dijkstra's Algorithm to find the minimum cost of distance between a source and destination in a graph.
