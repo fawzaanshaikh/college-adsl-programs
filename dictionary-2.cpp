@@ -135,7 +135,7 @@ int main() {
     char permission, search_key[20];
 
     do {
-        cout << "\nEnter: 1 to create, 2 to display, 3 to search and 4 to update. \n";
+        cout << "\nEnter: 1 to create, 2 to display, 4 to update and 5 to delete. \n";
         cin >> choice;
 
         switch (choice)
