@@ -16,13 +16,21 @@ class Dictionary {
         }
 
         Node *getData();
+        Node *getInorderSuccessor(Node *curr);
         void createDictionary();
         void insertNode(Node *);
         void displayDictionary(Node *);
         void searchInDictionary(char *);
         void updateInDictionary(char *);
-        void deleteFromDictionary(Node *, char *);
+        Node *deleteFromDictionary(Node *, char *);
 };
+
+Node *Dictionary:: getInorderSuccessor(Node *curr){ // gets the closest highest value
+    curr=curr->right;
+    while(curr!=NULL && curr->left!=NULL)
+        curr=curr->left; // since closest highest value will be the leftmost node of the right child
+    return curr;
+}
 
 Node *Dictionary :: getData() {
     Node *new_node = new Node;
@@ -91,7 +99,7 @@ void Dictionary :: searchInDictionary(char search_key[]) {
             cout << "Keyword found! The meaning is: " << temp -> meaning;
             return;
         }
-        else if (strcmp(search_key, temp -> key) <= 0)
+        else if (strcmp(search_key, temp -> key) < 0)
             temp = temp -> left;
         else
             temp = temp -> right;
@@ -110,7 +118,7 @@ void Dictionary :: updateInDictionary(char search_key[]){
             cin >> temp -> meaning;
             return;
         }
-        else if (strcmp(search_key, temp -> key) <= 0)
+        else if (strcmp(search_key, temp -> key) < 0)
             temp = temp -> left;
         else
             temp = temp -> right;
@@ -119,14 +127,44 @@ void Dictionary :: updateInDictionary(char search_key[]){
     cout << "Keyword " << search_key << " not found.\n";
 }
 
-void Dictionary :: deleteFromDictionary(Node *temp, char delete_key[]) {
-    if (temp == NULL) {
-        cout << "Tree is empty\n";
-    }
-    else if (strcmp(delete_key, temp -> key) < 0) {
+Node *Dictionary :: deleteFromDictionary(Node *root, char delete_key[]) {
+
+    if (root == NULL){
+        cout << "Tree Empty. No changes made. \n\n";
+        return root;
     }
 
+    if (strcmp(delete_key, root -> key) < 0)
+        root->left = deleteFromDictionary (root->left,delete_key);
+
+    else if (strcmp(delete_key, root -> key) > 0)
+        root->right = deleteFromDictionary (root->right,delete_key);
+
+    else{
+        if (root->left == NULL){
+            Node *temp = root -> right;
+            delete root;
+            return temp;
+        }
+        else if (root -> right == NULL){
+            Node *temp = root -> left;
+            delete root;
+            return temp;
+        }
+        else{
+            Node *succ=getInorderSuccessor(root);
+            *root->key=*succ->key;
+            root->right=deleteFromDictionary(root->right,succ->key);
+        }
+
+    }
+
+    return root;
+
 }
+
+
+
 
 int main() {
     Dictionary dictObj;
@@ -135,7 +173,7 @@ int main() {
     char permission, search_key[20];
 
     do {
-        cout << "\nEnter: 1 to create, 2 to display, 3 to search and 4 to update. \n";
+        cout << "\nEnter: 1 to create, 2 to display, 3 to search, 4 to update and 5 to delete. \n";
         cin >> choice;
 
         switch (choice)
@@ -159,7 +197,11 @@ int main() {
         case 5:
             cout << "Enter the keyword you would like to delete - ";
             cin >> search_key;
-            
+            cout<<endl;
+            root = dictObj.deleteFromDictionary(root, search_key);
+            cout<<"Your dictionary :"<<endl;
+            dictObj.displayDictionary(root);
+            break;
 
         default:
             cout << "Please enter a valid number";
