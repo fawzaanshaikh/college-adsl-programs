@@ -24,3 +24,5 @@ Currently, there is/are :-
 - dijkstras-algorithm.cpp :- Program which implements Dijkstra's Algorithm to find the minimum cost of distance between a source and destination in a graph.
 
 - hash-linear-probing.py :- Implemnting linear probing in a hash table (dictionary) in Python.
+
+- telephone-directory-hlp.py :- Creating a telephone directory using the concepts used in hash table and linear probing (hash-linear-probing.py).
