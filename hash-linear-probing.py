@@ -1,5 +1,3 @@
-# To write the insertIntoHashIndexWithReplacement() function properly
-
 from collections import defaultdict
 
 count = 0
@@ -15,18 +13,26 @@ class HashLinearProbing:
     def insertIntoHashIndexWithoutReplacement(self, key, index):
         global count
 
-        if self.hash_table[index] == -1:
-            self.hash_table[index] = key
-            count = count + 1
+        load_factor = ((count / size) * 100)
+
+        if load_factor < 80:
+            if self.hash_table[index] == -1:
+                self.hash_table[index] = key
+                count = count + 1
+            else:
+                self.findVacantIndex(key, index)
         else:
-            self.findVacantIndex(key, index)
+            print("Cannot enter the key since the hash table is almost full.")
 
     def insertIntoHashIndexWithReplacement(self, key, index):
-        global count
-
         if self.hash_table[index] == -1:
             self.hash_table[index] = key
-            count = count + 1
+        elif index == self.hashing(self.hash_table[index]):
+            self.findVacantIndex(key, index)
+        else:
+            temp = self.hash_table[index]
+            self.hash_table[index] = key
+            self.findVacantIndex(temp, index)
         
     def findVacantIndex(self, key, index):
         for i in range(1, size):
