@@ -27,9 +27,10 @@ class Dictionary {
     // Member functions
     Node* createNode(char[], char[]);
     void insertIntoDictionary();
-    void searchInDictionary();
+    Node* searchInDictionary();
     void displayInorder(Node*);
     void updateInDictionary();
+    void deleteInDictionary();
 };
 
 /* Definitions of member functions of Dictionary class */
@@ -83,7 +84,7 @@ void Dictionary :: insertIntoDictionary() {
 }
 
 // searchInDictionary - searches for a word in dictionary and displays its meaning
-void Dictionary :: searchInDictionary() {
+Node* Dictionary :: searchInDictionary() {
     if (root == NULL) 
         cout << "\nThe dictionary is empty.\n";
     else {
@@ -95,7 +96,7 @@ void Dictionary :: searchInDictionary() {
         while (true) {
             if (temp == NULL) {
                 cout << "Could not find the word " << wd << ".\n";
-                break;
+                return NULL;
             }
             else if (strcmp(wd, temp -> word) < 0)
                 temp = temp -> left;
@@ -103,7 +104,7 @@ void Dictionary :: searchInDictionary() {
                 temp = temp -> right;
             else {
                 cout << "Found " << wd << "! It's meaning is " << temp -> meaning << ".\n";
-                break;
+                return temp;
             }
         }
     }
@@ -122,13 +123,22 @@ void Dictionary :: displayInorder(Node* node) {
 
 // updateInDictionary - finds the word specified by the user and updates its meaning
 void Dictionary :: updateInDictionary() {
-    if (searchInDictionary()) {
-        char mn[20];
-        cout << "\nEnter the new meaning of the word: ";
-        cin >> mn;
+    Node* node = searchInDictionary();  // Searches a word and returns its node if it exists
+    
+    if (node != NULL) {
+        cout << "\nEnter the new meaning of the word " << node -> word << ": ";
+        cin >> node -> meaning;
 
-
+        cout << "The meaning of the word " << node -> word << " has been updated to " << node -> meaning << ".\n";
     }
+    else
+        cout << "\nThe word cannot be updated.\n";
+}
+
+// deleteInDictionary - finds the word and deletes it and its meaning
+void Dictionary :: deleteInDictionary() {
+    Node* node = searchInDictionary();  // Searches a word and returns its node if it exists
+
 }
 
 int main() {
@@ -138,7 +148,7 @@ int main() {
     cout << "\n\n------ Dictionary Application ------";
     
     while (true) {
-        cout << "\nEnter 1 to enter a word and its meaning, 2 to display the dictionary, 3 to search a word 7 to exit: ";
+        cout << "\nEnter 1 to enter a word and its meaning, 2 to display the dictionary, 3 to search a word, 4 to update a word, 7 to exit: ";
         cin >> user_input;
 
         if (user_input == 7)
@@ -155,6 +165,9 @@ int main() {
                 break;
             case 3:
                 dObj.searchInDictionary();
+                break;
+            case 4:
+                dObj.updateInDictionary();
                 break;
             default:
                 cout << "\nInvalid Entry";
