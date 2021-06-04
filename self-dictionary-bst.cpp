@@ -29,6 +29,7 @@ class Dictionary {
     void insertIntoDictionary();
     void searchInDictionary();
     void displayInorder(Node*);
+    void updateInDictionary();
 };
 
 /* Definitions of member functions of Dictionary class */
@@ -83,26 +84,29 @@ void Dictionary :: insertIntoDictionary() {
 
 // searchInDictionary - searches for a word in dictionary and displays its meaning
 void Dictionary :: searchInDictionary() {
-    char wd[20];
-    cout << "\nEnter the word you would like to search: ";
-    cin >> wd;
+    if (root == NULL) 
+        cout << "\nThe dictionary is empty.\n";
+    else {
+        char wd[20];
+        cout << "\nEnter the word you would like to search: ";
+        cin >> wd;
 
-    Node* temp = root;
-    while (true) {
-        if (temp == NULL) {
-            cout << "Could not find the word " << wd << ".\n";
-            break;
-        }
-        else if (strcmp(wd, temp -> word) < 0)
-            temp = temp -> left;
-        else if (strcmp(wd, temp -> word) > 0)
-            temp = temp -> right;
-        else {
-            cout << "Found " << wd << "! It's meaning is " << temp -> meaning << ".\n";
-            break;
+        Node* temp = root;
+        while (true) {
+            if (temp == NULL) {
+                cout << "Could not find the word " << wd << ".\n";
+                break;
+            }
+            else if (strcmp(wd, temp -> word) < 0)
+                temp = temp -> left;
+            else if (strcmp(wd, temp -> word) > 0)
+                temp = temp -> right;
+            else {
+                cout << "Found " << wd << "! It's meaning is " << temp -> meaning << ".\n";
+                break;
+            }
         }
     }
-
 }
 
 // displayInorder - displays the words and their meanings in lexicographically
@@ -113,6 +117,17 @@ void Dictionary :: displayInorder(Node* node) {
         displayInorder(node -> left);
         cout << node -> word << "\t\t\t" << node -> meaning << endl;
         displayInorder(node -> right);
+    }
+}
+
+// updateInDictionary - finds the word specified by the user and updates its meaning
+void Dictionary :: updateInDictionary() {
+    if (searchInDictionary()) {
+        char mn[20];
+        cout << "\nEnter the new meaning of the word: ";
+        cin >> mn;
+
+
     }
 }
 
