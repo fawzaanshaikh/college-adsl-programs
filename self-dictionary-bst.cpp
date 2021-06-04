@@ -205,9 +205,9 @@ void Dictionary :: deleteInDictionary() {
 
         struct Node* check = deleteNode(root, delete_word);
         if (check != NULL)
-            cout << "\nThe word was deleted.\n" << check -> word ;
+            cout << "\nThe word was deleted.\n";
         else
-            cout << "\nThe word could not be found, hence not deleting\n" << check-> word;
+            cout << "\nThe word could not be found, hence not deleting\n";
     }
 
 }
