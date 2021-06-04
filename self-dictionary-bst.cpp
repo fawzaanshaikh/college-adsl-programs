@@ -87,6 +87,21 @@ void Dictionary :: searchInDictionary() {
     cout << "\nEnter the word you would like to search: ";
     cin >> wd;
 
+    Node* temp = root;
+    while (true) {
+        if (temp == NULL) {
+            cout << "Could not find the word " << wd << ".\n";
+            break;
+        }
+        else if (strcmp(wd, temp -> word) < 0)
+            temp = temp -> left;
+        else if (strcmp(wd, temp -> word) > 0)
+            temp = temp -> right;
+        else {
+            cout << "Found " << wd << "! It's meaning is " << temp -> meaning << ".\n";
+            break;
+        }
+    }
 
 }
 
@@ -96,7 +111,7 @@ void Dictionary :: displayInorder(Node* node) {
         return;
     else {
         displayInorder(node -> left);
-        cout << node -> word << "\t\t" << node -> meaning << endl;
+        cout << node -> word << "\t\t\t" << node -> meaning << endl;
         displayInorder(node -> right);
     }
 }
@@ -108,10 +123,10 @@ int main() {
     cout << "\n\n------ Dictionary Application ------";
     
     while (true) {
-        cout << "\nEnter 1 to enter, 2 to display, 3 to exit: ";
+        cout << "\nEnter 1 to enter a word and its meaning, 2 to display the dictionary, 3 to search a word 7 to exit: ";
         cin >> user_input;
 
-        if (user_input == 3)
+        if (user_input == 7)
             break;
 
         switch(user_input) {
@@ -119,8 +134,12 @@ int main() {
                 dObj.insertIntoDictionary();
                 break;
             case 2:
-                cout << "Word\t\tMeaning\n";
+                cout << "\nWord\t     |\t\tMeaning\n";
+                cout << "----------------------------\n";
                 dObj.displayInorder(dObj.root);
+                break;
+            case 3:
+                dObj.searchInDictionary();
                 break;
             default:
                 cout << "\nInvalid Entry";
