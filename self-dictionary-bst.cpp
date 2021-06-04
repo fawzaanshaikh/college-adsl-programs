@@ -1,10 +1,133 @@
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
-int main()
-{
+/* Definition of Node structure */
+struct Node {
+    char word[20];
+    char meaning[20];
+    struct Node* right;
+    struct Node* left;
+};
+
+/* Definition of Dictionary class */
+class Dictionary {
+
+    public:
+    // Data members
+    struct Node* root;
+    const int MAX_SIZE = 20;  // Maximum length of the strings
+
+    // Constructor
+    Dictionary() {
+        root = NULL;
+    }
+
+    // Member functions
+    Node* createNode(char[], char[]);
+    void insertIntoDictionary();
+    void searchInDictionary();
+    void displayInorder(Node*);
+};
+
+/* Definitions of member functions of Dictionary class */
+// createNode function - creates a new node of the tree
+Node* Dictionary :: createNode(char w[], char m[]) {
+    Node* new_node = new Node;
+
+    for (int i = 0; i < MAX_SIZE; i++) {    // Assigning the char arrays
+        new_node -> word[i] = w[i];
+        new_node -> meaning[i] = m[i];
+    }
+
+    new_node -> right = new_node -> left = NULL;
+    return new_node;
+}
+
+// insertIntoDictionary function - inserts a new node into the existing tree
+void Dictionary :: insertIntoDictionary() {
+    char wd[20], mn[20];
+    cout << "\nEnter the word (max. letter size = 20): ";
+    cin >> wd;
+    cout << "Enter the meaning of the word (max. letter size = 20): ";
+    cin >> mn;
+
+    if (root == NULL)
+        root = createNode(wd, mn);
+    else {
+        Node* new_node = createNode(wd, mn);
+        Node* temp = root;
+
+        while (true) {
+            if (strcmp(new_node -> word, temp -> word) < 0) {
+                if (temp -> left == NULL) {
+                    temp -> left = new_node;
+                    break;
+                }
+                else
+                    temp = temp -> left;
+            }
+            else {
+                if (temp -> right == NULL) {
+                    temp -> right = new_node;
+                    break;
+                }
+                else
+                    temp  = temp -> right;
+            }
+        }
+    }
+
+}
+
+// searchInDictionary - searches for a word in dictionary and displays its meaning
+void Dictionary :: searchInDictionary() {
+    char wd[20];
+    cout << "\nEnter the word you would like to search: ";
+    cin >> wd;
+
+
+}
+
+// displayInorder - displays the words and their meanings in lexicographically
+void Dictionary :: displayInorder(Node* node) {
+    if (node == NULL)
+        return;
+    else {
+        displayInorder(node -> left);
+        cout << node -> word << "\t\t" << node -> meaning << endl;
+        displayInorder(node -> right);
+    }
+}
+
+int main() {
+    Dictionary dObj;
+    int user_input;
+
+    cout << "\n\n------ Dictionary Application ------";
     
+    while (true) {
+        cout << "\nEnter 1 to enter, 2 to display, 3 to exit: ";
+        cin >> user_input;
+
+        if (user_input == 3)
+            break;
+
+        switch(user_input) {
+            case 1:
+                dObj.insertIntoDictionary();
+                break;
+            case 2:
+                cout << "Word\t\tMeaning\n";
+                dObj.displayInorder(dObj.root);
+                break;
+            default:
+                cout << "\nInvalid Entry";
+        }
+    }
+
+    cout << "\n------ Thank you ------";
 
     return 0;
 }
