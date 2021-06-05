@@ -18,7 +18,7 @@ class BinarySearchTree {
 
     struct Node* createNode(int);
     void insertNode(int);
-    void searchNode();
+    void searchNode(int);
     struct Node* minValueNode(struct Node*);
     struct Node* deleteNode(struct Node*, int);
     void inorderDisplay(struct Node*);
@@ -46,6 +46,31 @@ void BinarySearchTree :: insertNode(int data) {
                 temp = temp -> left;
             else if (data >= temp -> data)
                 temp = temp -> right;
+        }
+    }
+}
+
+void BinarySearchTree :: searchNode(int data) {
+    if (root == NULL) {
+        cout << "The BST is empty.\n";
+        return;
+    }
+    else {
+        struct Node* temp = root;
+
+        while (true) {
+            if (temp == NULL) {
+                cout << "Could not find " << data << endl;
+                break;
+            }
+            else if (data < temp -> data)
+                temp = temp -> left;
+            else if (data > temp -> data)
+                temp = temp -> right;
+            else if (data == temp -> data) {
+                cout << "Found " << data << "!\n";
+                break;
+            }            
         }
     }
 }
