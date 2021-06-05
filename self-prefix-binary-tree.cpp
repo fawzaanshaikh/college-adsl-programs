@@ -2,124 +2,212 @@
 
 using namespace std;
 
-// Definition of the node of the tree
+/* Defintion of the node of the tree */
 struct TreeNode
 {
     char data;
-    struct TreeNode *left;
-    struct TreeNode *right;
+    TreeNode *left, *right;
 } *root;
 
-// Definition of the node of the stack
-struct StackNode
+/* Definition of the node of the stack */
+class StackNode
 {
-    struct TreeNode *node; 
-    struct StackNode *next;
-} *top;
+    public:
+        struct TreeNode* tree_node;
+        StackNode* next;
 
-// Function to create a stack node
-StackNode* createStackNode(TreeNode* tree_node)
-{
-    StackNode* new_node = new StackNode;
-    new_node -> node = tree_node;
-    new_node -> next = NULL;
-}
-
-// Function to push a tree node to the stack
-StackNode* push(StackNode* top, TreeNode* node)
-{
-    if (top == NULL)
-        top = createStackNode(node);
-    else
-    {
-        StackNode* temp = createStackNode(node);
-        temp -> next = top;
-        top = temp;
-    }
-
-    return top;
-}
-
-// Function to pop a tree node from the stack
-TreeNode* pop(StackNode* top)
-{
-    
-    TreeNode* temp_tree_node = NULL;
-
-    if (top == NULL)
-        cout << "Stack is empty\n\n";
-    else
-    {
-        StackNode* temp = top;
-        top = top -> next;
-        temp_tree_node = temp -> node;
-        free(temp);
-    }
-
-    return temp_tree_node;
-}
-
-// Function to create a tree node
-TreeNode* createTreeNode(char c)
-{
-    TreeNode* new_node = new TreeNode;
-    new_node -> data = c;
-    new_node -> left = new_node -> right = NULL;
-    return new_node;
-}
-
-// Function to build the tree
-void buildTree(string s)
-{
-    StackNode* temp_stack;
-    TreeNode* temp_tree;
-
-    if (root == NULL)
-        root = temp_tree;
-
-    // Reading the string from the back
-    for (int i = s.length() - 1; i >= 0; i--)
-    {
-        temp_tree = createTreeNode(s[i]);
-        if (s[i] >= '0' && s[i] <= '9')
-            top = push(top, temp_tree);
-        else
+        StackNode(TreeNode* tree_node)
         {
-            temp_tree -> left = pop(top);
-            temp_tree -> right = pop(top);
-            
+            this -> tree_node = tree_node;
+            next = NULL;
+        }
+};
+
+/* Definition of expression tree class */
+class ExpressionTree
+{
+    private:
+        StackNode *top;
+    
+    public:
+        ExpressionTree()
+        {
+            top = NULL;
+        }
+
+        TreeNode *createNode(char);
+        void buildTree(string);
+        void insert(char);
+
+        void push(TreeNode*);
+        TreeNode* pop();
+
+        void display();
+        void inorder(TreeNode*);
+        void inorderNonRecursive(TreeNode*);
+        void preorder(TreeNode*);
+        void preorderNonRecursive(TreeNode*);
+        void postorder(TreeNode*);
+        void postorderNonRecursive(TreeNode*);
+};
+
+TreeNode* ExpressionTree :: createNode(char character)
+{
+    struct TreeNode* temp_node = new TreeNode;
+    temp_node -> data = character;
+    temp_node -> right = temp_node -> left = NULL;
+
+    return temp_node;
+}
+
+void ExpressionTree :: buildTree(string expression)
+{
+    for (int i = expression.length() - 1; i >= 0; i--)
+    {
+        insert(expression[i]);
+    }
+
+    root = top -> tree_node;
+}
+
+void ExpressionTree :: insert(char ch)
+{
+    TreeNode *temp_node = new TreeNode;
+    temp_node = createNode(ch);
+
+    if (ch >= '0' && ch <= '9')
+        push(temp_node);
+    else if (ch == '+' || ch == '-' || ch == '*' || ch == '/')
+    {
+        temp_node -> left = pop();
+        temp_node -> right = pop();
+        push(temp_node);
+    }
+    else
+        cout << "Invalid Expression" << endl;
+}
+
+void ExpressionTree :: push(TreeNode *ptr)
+{
+    if (top == NULL)
+        top = new StackNode(ptr);
+    else
+    {
+        StackNode *nptr = new StackNode(ptr);
+        nptr -> next = top;
+        top = nptr; 
+    }
+}
+
+TreeNode* ExpressionTree :: pop()
+{
+    if (top == NULL)
+        cout << "Stack Empty" << endl;
+    else
+    {
+        struct TreeNode* ptr = top -> tree_node;
+        top = top -> next;
+        return ptr;
+    }
+}
+
+void ExpressionTree :: inorder(TreeNode *temp_node)
+{
+    if (temp_node != NULL)
+    {
+        inorder(temp_node -> left);
+        cout << " " << temp_node -> data;
+        inorder(temp_node -> right);
+    }
+}
+
+void ExpressionTree :: inorderNonRecursive(TreeNode *temp_node)
+{
+    top = NULL;
+
+    while (temp_node != NULL || top != NULL)
+    {
+        while (temp_node != NULL)
+        {
+            push(temp_node);
+            temp_node = temp_node -> left;
+        }
+        temp_node = pop();
+        cout << " " << temp_node -> data;
+        temp_node = temp_node -> right;
+    }
+}
+
+void ExpressionTree :: preorder(TreeNode *temp_node)
+{
+    if (temp_node != NULL)
+    {
+        cout << " " << temp_node -> data;
+        preorder(temp_node -> left);
+        preorder(temp_node -> right);
+    }
+}
+
+void ExpressionTree :: preorderNonRecursive(TreeNode* temp_node)
+{
+    top = NULL;
+
+    while (temp_node != NULL || top != NULL) {
+        while (temp_node != NULL) {
+            cout << " " << temp_node -> data;
+            push(temp_node);
+            temp_node = temp_node -> left;
+        }
+
+        if (top != NULL) {
+            temp_node = pop();
+            temp_node = temp_node -> right;
         }
     }
-
-
-    inorder(root);
 }
 
-// Function to display the tree
-void inorder(TreeNode* root)
+void ExpressionTree :: postorder(TreeNode *temp_node)
 {
-    if (root == NULL)
-        return;
-    else
+    if (temp_node != NULL)
     {
-        inorder(root -> left);
-        cout << root -> data << " ";
-        inorder(root -> right);
+        postorder(temp_node -> left);
+        postorder(temp_node -> right);
+        cout << " " << temp_node -> data;
     }
 }
 
-// Driver code
+void ExpressionTree :: display()
+{
+    cout << "\nInorder : ";
+    inorder(root);
+
+    cout << "\nInorder Non-Recursive : ";
+    inorderNonRecursive(root);
+
+    cout << "\nPreorder : ";
+    preorder(root);
+
+    cout << "\nPreorder Non-Recursive : ";
+    preorderNonRecursive(root);
+
+    cout << "\nPostorder : ";
+    postorder(root);
+    cout << "\n";
+}
+
 int main()
 {
-    cout << "\n\n------- Prefix Binary Tree -------\n\n";
-    cout << "Enter the prefix expression: ";
+    string s;
+    cout << "------ Expression Tree Test ------" << endl;
 
-    string expression;
-    cin >> expression;
+    ExpressionTree exp_obj;
 
-    buildTree(expression);
+    cout << "\nEnter the equation in Prefix Form : ";
+    cin >> s;
+    exp_obj.buildTree(s);
 
-    cout << "\n\n------- Thank you -------\n\n";
+    cout << "Traversals :\n";
+    exp_obj.display();
 
     return 0;
 }
