@@ -132,6 +132,7 @@ void ExpressionTree :: inorderNonRecursive(TreeNode *temp_node)
             push(temp_node);
             temp_node = temp_node -> left;
         }
+
         temp_node = pop();
         cout << " " << temp_node -> data;
         temp_node = temp_node -> right;
@@ -159,20 +160,44 @@ void ExpressionTree :: preorderNonRecursive(TreeNode* temp_node)
             temp_node = temp_node -> left;
         }
 
-        if (top != NULL) {
-            temp_node = pop();
-            temp_node = temp_node -> right;
-        }
+        temp_node = pop();
+        temp_node = temp_node -> right;
     }
 }
 
-void ExpressionTree :: postorder(TreeNode *temp_node)
+void ExpressionTree :: postorder(TreeNode* temp_node)
 {
     if (temp_node != NULL)
     {
         postorder(temp_node -> left);
         postorder(temp_node -> right);
         cout << " " << temp_node -> data;
+    }
+}
+
+void ExpressionTree :: postorderNonRecursive(TreeNode* temp_node) {
+    top = NULL;
+    struct TreeNode* temp; 
+
+    while (temp_node != NULL || top != NULL) {
+        while (temp_node != NULL) {
+            if (temp_node -> right != NULL)
+                push(temp_node -> right);
+
+            push(temp_node);
+            temp_node = temp_node -> left;
+        }
+        
+        temp_node = pop();
+        if (temp_node -> right != NULL && temp_node -> right == top -> tree_node) {
+            temp = pop();
+            push(temp_node);
+            temp_node = temp_node -> right;
+        }
+        else {
+            cout << " " << temp_node -> data;
+            temp_node = NULL;
+        }
     }
 }
 
@@ -192,6 +217,9 @@ void ExpressionTree :: display()
 
     cout << "\nPostorder : ";
     postorder(root);
+
+    cout << "\nPostorder Non-Recursive : ";
+    postorderNonRecursive(root);
     cout << "\n";
 }
 
