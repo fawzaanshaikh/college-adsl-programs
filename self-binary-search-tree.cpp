@@ -20,7 +20,7 @@ class BinarySearchTree {
     void insertNode(int);
     void searchNode(int);
     void countNodes();
-    void mirrorBST();
+    void mirrorBST(struct Node*);
     struct Node* minValueNode(struct Node*);
     struct Node* deleteNode(struct Node*, int);
     void inorderDisplay(struct Node*);
@@ -74,6 +74,18 @@ void BinarySearchTree :: searchNode(int data) {
                 break;
             }            
         }
+    }
+}
+
+void BinarySearchTree :: mirrorBST(struct Node* node) {
+    if (node == NULL) return;
+    else {
+        mirrorBST(node -> left);
+        mirrorBST(node -> right);
+
+        struct Node* temp = node -> right;
+        node -> right = node -> left;
+        node -> left = temp;
     }
 }
 
