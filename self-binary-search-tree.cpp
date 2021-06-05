@@ -19,6 +19,8 @@ class BinarySearchTree {
     struct Node* createNode(int);
     void insertNode(int);
     void searchNode(int);
+    void countNodes();
+    void mirrorBST();
     struct Node* minValueNode(struct Node*);
     struct Node* deleteNode(struct Node*, int);
     void inorderDisplay(struct Node*);
