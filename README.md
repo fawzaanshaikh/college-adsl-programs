@@ -27,4 +27,4 @@ Currently, there is/are :-
 
 - telephone-directory-hlp.py :- Creating a telephone directory using the concepts used in hash table and linear probing (hash-linear-probing.py).
 
-self/ :- A folder of self-written code
+self/ :- A folder of self-written code.
