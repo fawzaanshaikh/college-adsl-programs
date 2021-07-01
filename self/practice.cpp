@@ -1,131 +1,271 @@
 #include <iostream>
+#include <string.h>
 
 using namespace std;
 
-class Node {
-    public:
-    int data;
-    Node *left, *right;
+/* Definition of Node structure */
+struct Node {
+    char word[20];
+    char meaning[20];
+    struct Node* right;
+    struct Node* left;
 };
 
-class BST {
-    public:
-    Node *root;
+/* Definition of Dictionary class */
+class Dictionary {
 
-    BST() {
+    public:
+    // Data members
+    struct Node* root;
+    const int MAX_SIZE = 20;  // Maximum length of the strings
+
+    // Constructor
+    Dictionary() {
         root = NULL;
-        root -> left = root -> right = NULL;
     }
 
-    Node* createNode(int);
-    Node* insertNode(Node*);
-    void inorder(Node*);
-    void preorder(Node*);
-    void postorder(Node*);
+    // Member functions
+    Node* createNode(char[], char[]);
+    void insertIntoDictionary();
+    Node* searchInDictionary();
+    void displayInorder(Node*);
+    void updateInDictionary();
+    Node* minValueNode(Node*);
+    Node* deleteNode(Node*, char[]);
+    void deleteInDictionary();
 };
 
-Node* BST :: createNode(int num) {
-    Node* new_node = new Node;
-    new_node -> left = new_node -> right = NULL;
-    new_node -> data = num;
+/* Definitions of member functions of Dictionary class */
+// createNode function - creates a new node of the tree
+Node* Dictionary :: createNode(char w[], char m[]) {
+    struct Node* new_node = new Node;
+
+    for (int i = 0; i < MAX_SIZE; i++) {    // Assigning the char arrays
+        new_node -> word[i] = w[i];
+        new_node -> meaning[i] = m[i];
+    }
+
+    new_node -> right = new_node -> left = NULL;
     return new_node;
 }
 
-Node* BST :: insertNode(Node* temp_node) {
-    int num;
-    cout << "\nEnter a number: ";
-    cin >> num;
+// insertIntoDictionary function - inserts a new node into the existing tree
+void Dictionary :: insertIntoDictionary() {
+    char insert_word[MAX_SIZE], insert_meaning[MAX_SIZE];
+    cout << "\nEnter the word (max. letter size = 20): ";
+    cin >> insert_word;
+    cout << "Enter the meaning of the word (max. letter size = 20): ";
+    cin >> insert_meaning;
 
-    if (root == NULL) {
-        root = createNode(num);
-    }
+    if (root == NULL)
+        root = createNode(insert_word, insert_meaning);
     else {
-        if (temp_node != NULL) {
-            if (num < temp_node -> data) {
-                temp_node = insertNode(temp_node -> left);
+        struct Node* new_node = createNode(insert_word, insert_meaning);
+        struct Node* temp = root;
+
+        while (true) {
+            if (strcmp(new_node -> word, temp -> word) < 0) {
+                if (temp -> left == NULL) {
+                    temp -> left = new_node;
+                    break;
+                }
+                else
+                    temp = temp -> left;
             }
             else {
-                temp_node = insertNode(temp_node -> right);
+                if (temp -> right == NULL) {
+                    temp -> right = new_node;
+                    break;
+                }
+                else
+                    temp  = temp -> right;
             }
         }
+    }
+
+}
+
+// searchInDictionary - searches for a word in dictionary and displays its meaning
+Node* Dictionary :: searchInDictionary() {
+    if (root == NULL) 
+        cout << "\nThe dictionary is empty.\n";
+    else {
+        char search_word[MAX_SIZE];
+        cout << "\nEnter the word you would like to search: ";
+        cin >> search_word;
+
+        struct Node* temp = root;
+        while (true) {
+            if (temp == NULL) {
+                cout << "Could not find the word " << search_word << ".\n";
+                return NULL;
+            }
+            else if (strcmp(search_word, temp -> word) < 0)
+                temp = temp -> left;
+            else if (strcmp(search_word, temp -> word) > 0)
+                temp = temp -> right;
+            else {
+                cout << "Found " << search_word << "! It's meaning is " << temp -> meaning << ".\n";
+                return temp;
+            }
+        }
+    }
+}
+
+// displayInorder - displays the words and their meanings in lexicographically
+void Dictionary :: displayInorder(Node* node) {
+    cout << "Enter 'a' to display the dictionary in ascending order or 'd' for descending order: ";
+    char order;
+    cin >> order;
+
+    static struct char;  
+
+    if (order == 'a') {
+        if (node == NULL)
+            return;
         else {
-            temp_node = createNode(num);
+            displayInorder(node -> left);
+            cout << node -> word << "\t\t\t" << node -> meaning << endl;
+            displayInorder(node -> right);
+        }
+    } else if (order == 'd') {
+
+    }
+}
+
+// updateInDictionary - finds the word specified by the user and updates its meaning
+void Dictionary :: updateInDictionary() {
+    // Searches a word and returns its node if it exists
+    struct Node* node = searchInDictionary();  
+    
+    if (node != NULL) {
+        cout << "\nEnter the new meaning of the word " << node -> word << ": ";
+        cin >> node -> meaning;
+
+        cout << "The meaning of the word " << node -> word << " has been updated to " << node -> meaning << ".\n";
+    }
+    else
+        cout << "\nThe word cannot be updated.\n";
+}
+
+// minValueNode - searches the node with the minimum most value from the right subtree of the selected node
+Node* Dictionary :: minValueNode(Node* node)
+{
+    struct Node* current = node;
+ 
+    /* loop down to find the leftmost leaf */
+    while (current && current->left != NULL)
+        current = current->left;
+ 
+    return current;
+}
+
+// deleteNode - deletes the node the same way it is done in a BST
+Node* Dictionary :: deleteNode(Node* node, char delete_word[]) {
+    if (strcmp(delete_word, node -> word) < 0)
+        // Checking the side where the word comes in the tree
+        root -> left = deleteNode(root -> left, delete_word);   
+    else if (strcmp(delete_word, node -> word) > 0)
+        root -> right = deleteNode(node -> right, delete_word);
+    
+        // If the word is found    
+    else if (strcmp(delete_word, node -> word) == 0) {           
+        // If the node has no children
+        if (node -> left == NULL && node -> right == NULL) {
+            free(node);
+            return NULL;
+        }
+        // If the node has one child
+        else if (node -> left == NULL) {
+            struct Node* temp = node -> right;
+            free(node);
+            return temp; 
+        }
+        else if (node -> right == NULL) {
+            struct Node* temp = node -> left;
+            free(node);
+            return temp;
+        }
+        // If the node has both children, then the inorder successor replaces the deleted node
+        else {
+            // root -> right to find the smallest value in the right subtree
+            struct Node* temp = minValueNode(node -> right);    
+            
+            // Assigning the char arrays
+            for (int i = 0; i < MAX_SIZE; i++) {    
+                node -> word[i] = temp -> word[i];
+                node -> meaning[i] = temp -> meaning[i];
+            }
+
+            // Delete the inorder successor
+            root -> right = deleteNode(node -> right, delete_word); 
         }
 
+        return root;
     }
+
+    else
+        return NULL;
 }
 
-void BST :: inorder(Node* temp_node) {
-    if (temp_node != NULL) {
-        inorder(temp_node -> left);
-        cout << temp_node -> data << " ";
-        inorder(temp_node -> right);
-    }
+ 
+// deleteInDictionary - finds the word and deletes it and its meaning
+void Dictionary :: deleteInDictionary() {
+    if (root == NULL)
+        cout << "\nThe dictionary is empty.\n";
     else {
-        return;
+        struct Node* temp = root;
+        char delete_word[MAX_SIZE];
+        cout << "\nEnter the word you want to delete: ";
+        cin >> delete_word;
+
+        struct Node* check = deleteNode(root, delete_word);
+        if (check != NULL)
+            cout << "\nThe word was deleted.\n";
+        else
+            cout << "\nThe word could not be found, hence not deleting\n";
     }
+
 }
 
-void BST :: preorder(Node* temp_node) {
-    if (temp_node != NULL) {
-        cout << temp_node -> data << " ";
-        inorder(temp_node -> left);
-        inorder(temp_node -> right);
-    }
-    else {
-        return;
-    }
-}
-
-void BST :: postorder(Node* temp_node) {
-    if (temp_node != NULL) {
-        inorder(temp_node -> left);
-        inorder(temp_node -> right);
-        cout << temp_node -> data << " ";
-    }
-    else {
-        return;
-    }
-}
-
+// Driver code
 int main() {
-    cout << "Welcome to the BST generator\n\n";
+    Dictionary dObj;
+    int user_input;
 
-    char permission = 'y';
-    int input;
-    BST b_obj;
+    cout << "\n\n------ Dictionary Application ------";
     
     while (true) {
-        cout << "Enter 1 to insert a node, 2 to inorder, 3 to preorder, 4 to postorder and 5 to exit: ";
-        cin >> input;
+        cout << "\n  Enter 1 to enter a word and its meaning\n\t2 to display the dictionary\n\t3 to search a word\n\t4 to update a word\n\t5 to delete a word\n\t6 to exit: ";
+        cin >> user_input;
 
-        if (input == 5) {
+        if (user_input == 6)
             break;
-        }
 
-        switch (input) {
+        switch(user_input) {
             case 1:
-                b_obj.insertNode(b_obj.root);
+                dObj.insertIntoDictionary();
                 break;
             case 2:
-                b_obj.inorder(b_obj.root);
+                cout << "\nWord\t     |\t\tMeaning\n";
+                cout << "----------------------------\n";
+                dObj.displayInorder(dObj.root);
                 break;
             case 3:
-                b_obj.preorder(b_obj.root);
+                dObj.searchInDictionary();
                 break;
             case 4:
-                b_obj.postorder(b_obj.root);
+                dObj.updateInDictionary();
                 break;
-            
+            case 5:
+                dObj.deleteInDictionary();
+                break;
             default:
-                cout << "\nPlease enter a valid input\n";
+                cout << "\nInvalid Entry";
         }
-
-        cout << "Would you like to continue (y/n): ";
-        cin >> permission;
     }
 
-    cout << "\n\nThank you for using the BST generator";
+    cout << "\n------ Thank you ------";
 
     return 0;
 }

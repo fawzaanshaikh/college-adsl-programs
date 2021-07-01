@@ -114,12 +114,26 @@ Node* Dictionary :: searchInDictionary() {
 
 // displayInorder - displays the words and their meanings in lexicographically
 void Dictionary :: displayInorder(Node* node) {
-    if (node == NULL)
-        return;
-    else {
-        displayInorder(node -> left);
-        cout << node -> word << "\t\t\t" << node -> meaning << endl;
-        displayInorder(node -> right);
+    cout << "Enter 'a' for ascending or 'd' for descending: ";
+    char order;
+    cin >> order;
+    
+    if (order == 'a') {
+        if (node == NULL)
+            return;
+        else {
+            displayInorder(node -> left);
+            cout << node -> word << "\t\t\t" << node -> meaning << endl;
+            displayInorder(node -> right);
+        }
+    } else if (order == 'd') {
+        if (node == NULL)
+            return;
+        else {
+            displayInorder(node -> right);
+            cout << node -> word << "\t\t\t" << node -> meaning << endl;
+            displayInorder(node -> left);
+        }
     }
 }
 
