@@ -119,6 +119,7 @@ class Graph
     public:
         Graph();
         void create();
+        void display();
         void depthFirstSearch();
         void breadthFirstSearch();
 };
@@ -150,6 +151,21 @@ void Graph :: create()
             if (ch == 1)
                 adj[i][j] = adj[j][i] = 1;
         }
+    }
+}
+
+void Graph :: display()
+{
+    int i = 0, j = 0;
+
+    cout << "\n\n";
+    for (i = 0; i < n; i++)
+    {
+        for (j = 0; j < n; j++)
+        {
+            cout << adj[i][j] << " ";
+        }
+        cout << "\n";
     }
 }
 
@@ -222,6 +238,7 @@ int main()
     Graph g;
 
     g.create();
+    g.display();
     g.depthFirstSearch();
     g.breadthFirstSearch();
 

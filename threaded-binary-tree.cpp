@@ -23,9 +23,6 @@ class ThreadedBinaryTree
         void createThreadedBinaryTree();
         void insertNode(Node *, Node *);
         void displayThreadedBinaryTree(Node *, Node *);
-        void searchInThreaddedBinaryTree(char *);
-        void updateInThreaddedBinaryTree(char *);
-        void deleteFromThreaddedBinaryTree(Node *, char *);
 };
 
 Node *ThreadedBinaryTree :: getData() 

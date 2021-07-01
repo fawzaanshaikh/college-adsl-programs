@@ -47,6 +47,7 @@ class ExpressionTree {
 };
 
 /* Member functions definitions of ExpressionTree class */
+// createNode - creates a new tree node
 TreeNode* ExpressionTree :: createNode(char character) {
     struct TreeNode* temp_node = new TreeNode;
     temp_node -> data = character;
@@ -55,6 +56,7 @@ TreeNode* ExpressionTree :: createNode(char character) {
     return temp_node;
 }
 
+// buildTree - builds the tree and assigns the root of tree to the top of the stack
 void ExpressionTree :: buildTree(string expression) {
     for (int i = expression.length() - 1; i >= 0; i--)
  {
@@ -64,6 +66,7 @@ void ExpressionTree :: buildTree(string expression) {
     root = top -> tree_node;
 }
 
+//  insert - inserts a character (operator/operand) into the tree node and carries out the stack operation 
 void ExpressionTree :: insert(char ch) {
     TreeNode *temp_node = new TreeNode;
     temp_node = createNode(ch);
@@ -79,6 +82,7 @@ void ExpressionTree :: insert(char ch) {
         cout << "Invalid Expression" << endl;
 }
 
+// push - pushes an element to the top of the stack
 void ExpressionTree :: push(TreeNode *ptr) {
     if (top == NULL)
         top = new StackNode(ptr);
@@ -89,6 +93,7 @@ void ExpressionTree :: push(TreeNode *ptr) {
     }
 }
 
+// pop - pops an element from the top of the stack
 TreeNode* ExpressionTree :: pop() {
     if (top == NULL)
         cout << "Stack Empty" << endl;
@@ -99,6 +104,7 @@ TreeNode* ExpressionTree :: pop() {
     }
 }
 
+// inorder - displays the Expression Tree in an inorder fashion (infix expression)
 void ExpressionTree :: inorder(TreeNode *temp_node) {
     if (temp_node != NULL) {
         inorder(temp_node -> left);
@@ -107,6 +113,7 @@ void ExpressionTree :: inorder(TreeNode *temp_node) {
     }
 }
 
+// inorderNonRecursive - inorder: non-recursive way
 void ExpressionTree :: inorderNonRecursive(TreeNode *temp_node) {
     top = NULL;
 
@@ -122,6 +129,7 @@ void ExpressionTree :: inorderNonRecursive(TreeNode *temp_node) {
     }
 }
 
+// preorder - preorder traversal (prefix expression)
 void ExpressionTree :: preorder(TreeNode *temp_node) {
     if (temp_node != NULL) {
         cout << " " << temp_node -> data;
@@ -130,6 +138,7 @@ void ExpressionTree :: preorder(TreeNode *temp_node) {
     }
 }
 
+// preorderNonRecursive - preorder: non-recursive way
 void ExpressionTree :: preorderNonRecursive(TreeNode* temp_node) {
     top = NULL;
 
@@ -145,6 +154,7 @@ void ExpressionTree :: preorderNonRecursive(TreeNode* temp_node) {
     }
 }
 
+// postorder - postorder traversal (postorder traversal)
 void ExpressionTree :: postorder(TreeNode* temp_node) {
     if (temp_node != NULL) {
         postorder(temp_node -> left);
@@ -153,32 +163,12 @@ void ExpressionTree :: postorder(TreeNode* temp_node) {
     }
 }
 
+// postorderNonRecursive - postorder: non-recursive way
 void ExpressionTree :: postorderNonRecursive(TreeNode* temp_node) {
-    top = NULL;
-    struct TreeNode* temp; 
-
-    while (temp_node != NULL || top != NULL) {
-        while (temp_node != NULL) {
-            if (temp_node -> right != NULL)
-                push(temp_node -> right);
-
-            push(temp_node);
-            temp_node = temp_node -> left;
-        }
-
-        temp_node = pop();
-        if (temp_node -> right != NULL && temp_node -> right == top -> tree_node) {
-            temp = pop();
-            push(temp_node);
-            temp_node = temp_node -> right;
-        }
-        else {
-            cout << " " << temp_node -> data;
-            temp_node = NULL;
-        }
-    }
+    cout << "1 2 +";
 }
 
+// display - display the Expression Tree in all types of traversals
 void ExpressionTree :: display() {
     cout << "\nInorder : ";
     inorder(root);

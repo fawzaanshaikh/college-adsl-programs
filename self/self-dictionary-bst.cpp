@@ -125,7 +125,8 @@ void Dictionary :: displayInorder(Node* node) {
 
 // updateInDictionary - finds the word specified by the user and updates its meaning
 void Dictionary :: updateInDictionary() {
-    struct Node* node = searchInDictionary();  // Searches a word and returns its node if it exists
+    // Searches a word and returns its node if it exists
+    struct Node* node = searchInDictionary();  
     
     if (node != NULL) {
         cout << "\nEnter the new meaning of the word " << node -> word << ": ";
@@ -152,11 +153,13 @@ Node* Dictionary :: minValueNode(Node* node)
 // deleteNode - deletes the node the same way it is done in a BST
 Node* Dictionary :: deleteNode(Node* node, char delete_word[]) {
     if (strcmp(delete_word, node -> word) < 0)
-        root -> left = deleteNode(root -> left, delete_word);   // Checking the side where the word comes in the tree
+        // Checking the side where the word comes in the tree
+        root -> left = deleteNode(root -> left, delete_word);   
     else if (strcmp(delete_word, node -> word) > 0)
         root -> right = deleteNode(node -> right, delete_word);
     
-    else if (strcmp(delete_word, node -> word) == 0) {           // If the word is found    
+        // If the word is found    
+    else if (strcmp(delete_word, node -> word) == 0) {           
         // If the node has no children
         if (node -> left == NULL && node -> right == NULL) {
             free(node);
@@ -175,14 +178,17 @@ Node* Dictionary :: deleteNode(Node* node, char delete_word[]) {
         }
         // If the node has both children, then the inorder successor replaces the deleted node
         else {
-            struct Node* temp = minValueNode(node -> right);    // root -> right to find the smallest value in the right subtree
+            // root -> right to find the smallest value in the right subtree
+            struct Node* temp = minValueNode(node -> right);    
             
-            for (int i = 0; i < MAX_SIZE; i++) {    // Assigning the char arrays
+            // Assigning the char arrays
+            for (int i = 0; i < MAX_SIZE; i++) {    
                 node -> word[i] = temp -> word[i];
                 node -> meaning[i] = temp -> meaning[i];
             }
 
-            root -> right = deleteNode(node -> right, delete_word); // Delete the inorder successor
+            // Delete the inorder successor
+            root -> right = deleteNode(node -> right, delete_word); 
         }
 
         return root;
@@ -212,6 +218,7 @@ void Dictionary :: deleteInDictionary() {
 
 }
 
+// Driver code
 int main() {
     Dictionary dObj;
     int user_input;
