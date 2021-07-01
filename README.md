@@ -26,3 +26,5 @@ Currently, there is/are :-
 - hash-linear-probing.py :- Implemnting linear probing in a hash table (dictionary) in Python.
 
 - telephone-directory-hlp.py :- Creating a telephone directory using the concepts used in hash table and linear probing (hash-linear-probing.py).
+
+self/ :- A folder of self-written code.
