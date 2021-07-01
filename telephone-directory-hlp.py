@@ -65,7 +65,8 @@ size = int(input("Enter the size of the telephone book: "))
 hash_object = HashLinearProbing(size)
 
 while 1:
-    print("Enter 1 for without replacement, 2 for with replacement, 3 for search a key, 4 for display the table and 5 to exit: ")
+    print("""Enter 1 for without replacement, 2 for with replacement, 3 for search a key, 4 for display the table, 5 to display the count
+    and 6 to exit: """)
     user_choice = int(input("Enter the option: "))
 
     if user_choice == 1:    
@@ -80,7 +81,7 @@ while 1:
     
     elif user_choice == 2:
 
-        key_value = int(input("Enter key value: "))
+        key_value = input("Enter key value: ")
         index = hash_object.hashing(key_value)
         hash_object.insertIntoHashIndexWithReplacement(key_value, index)
         hash_object.display()
@@ -91,6 +92,8 @@ while 1:
     elif user_choice == 4:
         hash_object.display()
     elif user_choice == 5:
+        print("The count is {}".format(count))
+    elif user_choice == 6:
         break
     else:
         print("Please enter a valid input.")
